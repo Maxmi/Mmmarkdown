@@ -1,0 +1,74 @@
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Mmmarkdown</title>
+    <link rel="stylesheet" type="text/css"  href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+    <link type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <script src="lib/marked"></script>
+  </head>
+
+  <body>
+    <div class="grid">
+      <div class="side">
+        <div class="side-title">
+          <h3>mmmarkdown</h3>
+          <span class="subtitle">a yummy markdown editor</span>
+        </div>
+        <div id="new-file">
+          <form id="new-file" action="/allfiles" method="post">
+            <div class="item">
+              <label for="new-file">
+              <span class="item-text pale">New File</span>
+              </label>
+              <div class="icon">
+                <button><i class="material-icons">add</i></button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+      <div id="files">
+        <ul id="list-of-files">
+
+        </ul>
+      </div>
+    </div>
+      <!-- end of side -->
+
+
+      <div class="top">
+        <div><span>FileName</span></div>
+        <div class="words"><span>word count in the file</span></div>
+        <div class="save">
+          <%# <button><i class="material-icons">save</i></button>%>
+          <button type="submit" name="saveBtn">Save</button>
+        </div>
+      </div>
+
+      <div class="middle">
+        <div class="middle-title">MARKDOWN</div>
+        <div class="middle-text">
+          <textarea name="markdown-text" rows="20" cols="65" placeholder="write your markdown text here..." autofocus></textarea>
+        </div>
+
+        <div class="empty">
+        </div>
+      </div>
+      <!-- end of middle -->
+
+      <div class="right">
+        <div class="right-title">PREVIEW</div>
+
+        <div class="right-text">
+          <textarea name="preview-text" rows="20" cols="65"></textarea>
+        </div>
+
+      </div>
+      <div class="empty">
+      </div>
+    </div>
+  </body>
+
+</html>
