@@ -1,12 +1,11 @@
+<!DOCTYPE html>
 <html>
-
   <head>
     <meta charset="UTF-8">
     <title>Mmmarkdown</title>
     <link rel="stylesheet" type="text/css"  href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
     <link type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <script src="lib/marked"></script>
   </head>
 
   <body>
@@ -17,7 +16,7 @@
           <span class="subtitle">a yummy markdown editor</span>
         </div>
         <div id="new-file">
-          <form id="new-file" action="/allfiles" method="post">
+          <%# <form id="new-file" action="/allfiles" method="post">%>
             <div class="item">
               <label for="new-file">
               <span class="item-text pale">New File</span>
@@ -26,7 +25,7 @@
                 <button><i class="material-icons">add</i></button>
               </div>
             </div>
-          </form>
+          <%# </form>%>
         </div>
 
       <div id="files">
@@ -40,9 +39,8 @@
 
       <div class="top">
         <div><span>FileName</span></div>
-        <div class="words"><span>word count in the file</span></div>
+        <div class="words"><span>__ words</span></div>
         <div class="save">
-          <%# <button><i class="material-icons">save</i></button>%>
           <button type="submit" name="saveBtn">Save</button>
         </div>
       </div>
@@ -50,7 +48,7 @@
       <div class="middle">
         <div class="middle-title">MARKDOWN</div>
         <div class="middle-text">
-          <textarea name="markdown-text" rows="20" cols="65" placeholder="write your markdown text here..." autofocus></textarea>
+          <textarea id="input" name="markdown-text" rows="20" cols="50" placeholder="write your markdown text here..." autofocus></textarea>
         </div>
 
         <div class="empty">
@@ -62,13 +60,22 @@
         <div class="right-title">PREVIEW</div>
 
         <div class="right-text">
-          <textarea name="preview-text" rows="20" cols="65"></textarea>
+          <textarea id="output" name="preview-text" rows="20" cols="50"></textarea>
         </div>
 
       </div>
       <div class="empty">
       </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/remarkable/1.7.1/remarkable.min.js">
+      
+    </script>
+    <%# <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.7/marked.min.js">
+
+    </script>%>
+    <script type="text/javascript" src="js/script.js">
+
+    </script>
   </body>
 
 </html>

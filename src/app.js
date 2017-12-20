@@ -2,10 +2,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const routes = require('./server/index');
-const marked = require('marked');
+
 
 app.set('view engine', 'ejs');
 app.set('views', `${__dirname}/views`);
+
+
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended: false}));
