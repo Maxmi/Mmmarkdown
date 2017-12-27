@@ -177,16 +177,23 @@ fileNameHolder.addEventListener('blur', (event) => {
     })
 });
 
+
 //updating file content
-const updateFileContent = (fileID, newContent) => {
-  return fetch(`/allfiles/${fileID}`, {
+const saveChangesBtn = document.getElementById('update');
+
+saveChangesBtn.addEventListener('click', () => {
+  const li = document.querySelector('.active');
+  const fileID = li.getAttribute('data-id');
+  let input = userInput.value;
+
+  fetch(`/allfiles/${fileID}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      id: fileID,
-      newContent,
+      fileID ,
+      newContent: input
     })
   });
-};
+});
