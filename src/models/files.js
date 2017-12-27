@@ -57,13 +57,13 @@ const updateFileContent = (fileID, newContent) => {
 };
 
 
-const updateFileName = (fileID, newFileName) => {
+const updateFileName = (fileID, fileName) => {
   return db.one(`
     UPDATE files
     SET name = $2
     WHERE id = $1
     RETURNING *;
-  `, [fileID, newFileName])
+  `, [fileID, fileName])
 }
 
 const deleteFile = (fileID) => {

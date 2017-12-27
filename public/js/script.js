@@ -114,6 +114,7 @@ const addBtn = document.getElementById('add');
 addBtn.addEventListener('click', () => {
   userInput.value = '';
   output.innerHTML = '';
+  fileNameHolder.innerText = 'FileName';
   fileNameHolder.focus();
 });
 
@@ -127,7 +128,7 @@ const getFile = fileID => {
 ul.addEventListener('click', (event) => {
   if(event.target.tagName === 'SPAN') {
     const li = event.target.closest('li');
-    li.classList.add('active');
+    li.classList.toggle('active');
     const fileID = li.getAttribute('data-id');
     getFile(fileID)
       .then(result => {
@@ -141,3 +142,32 @@ ul.addEventListener('click', (event) => {
     fileNameHolder.innerText = fileName;
   }
 })
+
+
+//updating file name
+const updateFileName = (fileID, fileName) => {
+  return fetch(`/allfiles/update/${fileID}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      id: fileID,
+      name: fileName,
+    })
+  });
+};
+
+fileNameHolder.addEventListener('blur', (event) => {
+  const span = event.target;
+  const fileName = span.innerText;
+  const li = document.querySelector('.active');
+  const fileID = li.getAttribute('data-id');
+
+  updateFileName(fileID, fileName)
+    .then(() => {
+      //clear ul, then fetch updated list of files
+      ul.innerHTML = '';
+      getAllFiles();
+    })
+});

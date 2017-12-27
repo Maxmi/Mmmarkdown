@@ -38,7 +38,6 @@ router.get('/allfiles/:fileID', (req, res) => {
 
   return queries.getFileContent(fileID)
     .then(content => {
-      // console.log(content);
       res.status(200).json(content)
     })
     .catch(err => console.log(err))
@@ -49,6 +48,7 @@ router.get('/allfiles/:fileID', (req, res) => {
 router.put('/allfiles/:fileID', (req, res) => {
   const fileID = parseInt(req.params.fileID);
   const {newContent} = req.body;
+
   return queries.updateFileContent(fileID, newContent)
     .then(file => {
       res.render('index');
@@ -58,10 +58,10 @@ router.put('/allfiles/:fileID', (req, res) => {
 
 
 //route to update file name
-router.put('/allfiles/names/:fileID', (req, res) => {
+router.put('/allfiles/update/:fileID', (req, res) => {
   const fileID = parseInt(req.params.fileID);
-  const {newName} = req.body.name;
-  return queries.updateFileName(fileID, newName)
+  const fileName = req.body.name;
+  return queries.updateFileName(fileID, fileName)
     .then(file => {
       res.render('index');
     })
