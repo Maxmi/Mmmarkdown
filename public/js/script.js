@@ -5,8 +5,15 @@ let allFiles = [];
 
 const createLi = (name, id) => {
   const li = document.createElement('li');
-  li.innerHTML = name;
+  const div = document.createElement('div');
+  div.classList.add('icon');
+  const deleteBtn = document.createElement('button');
+  deleteBtn.innerHTML = '<i class="material-icons">delete</i>';
+  div.appendChild(deleteBtn);
+  li.innerText = name;
+  li.appendChild(div);
   li.setAttribute('data-id', id);
+  li.classList.add('item');
   return li;
 };
 
@@ -16,13 +23,14 @@ const getAllFiles = () => {
     .then(result => {
       allFiles = result.allfiles;
       allFiles.forEach(file => {
-        let li = createLi(file.name, file.id);
+        let li = createLi(file.name+'.md', file.id);
         ul.appendChild(li);
       });
     });
 };
 
 getAllFiles();
+
 
 //converting markdown text
 var md = new Remarkable({
