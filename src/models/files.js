@@ -62,7 +62,7 @@ const getContentOfFile = (fileName) => {
 };
 
 
-const updateFile = (fileID, newContent) => {
+const updateFileContent = (fileID, newContent) => {
   return db.one(`
     UPDATE files
     SET content = $2
@@ -71,6 +71,15 @@ const updateFile = (fileID, newContent) => {
   `, [fileID, newContent]);
 };
 
+
+const updateFileName = (fileID, newFileName) => {
+  return db.one(`
+    UPDATE files
+    SET name = $2
+    WHERE id = $1
+    RETURNING *;
+  `, [fileID, newFileName])
+}
 
 const deleteFile = (fileID) => {
   return db.none(`
@@ -88,6 +97,7 @@ module.exports = {
   getFileByName,
   getContentOfFile,
   getCreationDates,
-  updateFile,
+  updateFileContent,
+  updateFileName,
   deleteFile
 };

@@ -6,12 +6,17 @@ let allFiles = [];
 const createLi = (name, id) => {
   const li = document.createElement('li');
   const div = document.createElement('div');
-  div.classList.add('icon');
+  const span = document.createElement('span');
   const deleteBtn = document.createElement('button');
+
+  div.classList.add('icon');
   deleteBtn.classList.add('delete');
   deleteBtn.innerHTML = '<i class="material-icons delete">delete</i>';
   div.appendChild(deleteBtn);
-  li.innerText = name;
+
+  span.setAttribute('contenteditable', true);
+  span.innerText = name;
+  li.appendChild(span);
   li.appendChild(div);
   li.setAttribute('data-id', id);
   li.classList.add('item');
@@ -22,6 +27,7 @@ const getAllFiles = () => {
   return fetch('/allfiles')
     .then(result => result.json())
     .then(result => {
+      console.log(result);
       allFiles = result.allfiles;
       allFiles.forEach(file => {
         let li = createLi(file.name+'.md', file.id);
@@ -64,10 +70,11 @@ events.forEach(e => {
 
 //saving new file
 const saveBtn = document.getElementById('save');
+let fileNameHolder = document.getElementById('fileName');
 
 saveBtn.addEventListener('click', () => {
   let input = userInput.value;
-  let fileName = document.getElementById('fileName').innerText;
+  let fileName = fileNameHolder.innerText;
 
   fetch('/allfiles', {
     method: 'POST',
@@ -99,4 +106,14 @@ ul.addEventListener('click', (event) => {
         ul.removeChild(li);
       });
   }
+});
+
+
+//clearing textarea for new file and prompring for fileName 
+const addBtn = document.getElementById('add');
+
+addBtn.addEventListener('click', () => {
+  userInput.value = '';
+  output.innerHTML = '';
+  fileNameHolder.focus();
 });

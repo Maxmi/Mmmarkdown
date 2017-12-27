@@ -23,7 +23,6 @@ router.get('/allfiles', (req, res) => {
 
 //route to allfiles - post - create new file
 router.post('/allfiles', (req, res) => {
-
   const {name, newFile} = req.body;
   return queries.saveFile({name, newFile})
     .then((result) => {
@@ -35,7 +34,7 @@ router.post('/allfiles', (req, res) => {
 
 //route to one file - get one file
 router.get('/allfiles/:fileID', (req, res) => {
-  const {fileID} = parseInt(req.params);
+  const {fileID} = parseInt(req.params.fileID);
   return queries.getFileById(fileID)
     .then(file => {
       res.render(`index/${fileID}`);
@@ -44,16 +43,28 @@ router.get('/allfiles/:fileID', (req, res) => {
 })
 
 
-//route to update one file
+//route to update file content
 router.put('/allfiles/:fileID', (req, res) => {
-  const {fileID} = parseInt(req.params);
+  const {fileID} = parseInt(req.params.fileID);
   const {newContent} = req.body;
-  return queries.updateFile(fileID, newContent)
+  return queries.updateFileContent(fileID, newContent)
     .then(file => {
       res.render('index');
     })
     .catch(err => console.log(err));
 });
+
+
+//route to update file name
+router.put('/allfiles/names/:fileID', (req, res) => {
+  const {fileID} = parseInt(req.params.fileID);
+  const {newName} = req.body.name;
+  return queries.updateFileName(fileID, newName)
+    .then(file => {
+      res.render('index');
+    })
+    .catch(err => console.log(err));
+})
 
 
 //route to delete one file
