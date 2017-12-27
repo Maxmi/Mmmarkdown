@@ -3,23 +3,9 @@ const db = require('./db');
 //functions for all files
 const listAllFiles = () => {
   return db.any(`
-    SELECT * FROM files;
+    SELECT * FROM files ORDER BY last_edited_on DESC;
   `);
 };
-
-
-// const listFilesByEditDate = () => {
-//   return db.any(`
-//     SELECT * FROM files ORDER BY last_edited_on DESC;
-//   `);
-// };
-//
-//
-// const getCreationDates = () => {
-//   return db.any(`
-//     SELECT created_on FROM files;
-//   `)
-// };
 
 
 //functions for individual files
@@ -28,6 +14,8 @@ const saveFile = ({name, newFile}) => {
   return db.one(`
     INSERT INTO files (name, content)
     VALUES ($1, $2)
+    ON CONFLICT (name)
+    DO UPDATE SET name = $1
     RETURNING *;
   `, [name, newFile])
 };
@@ -76,12 +64,9 @@ const deleteFile = (fileID) => {
 
 module.exports = {
   listAllFiles,
-  // listFilesByEditDate,
   saveFile,
   // getFile,
-  // getFileByName,
   getFileContent,
-  // getCreationDates,
   updateFileContent,
   updateFileName,
   deleteFile

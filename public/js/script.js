@@ -84,7 +84,12 @@ saveBtn.addEventListener('click', () => {
       name: fileName,
       newFile: input
     })
-  });
+  })
+    .then(file => {
+      //clear ul, then fetch updated list of files
+      ul.innerHTML = '';
+      getAllFiles();
+    })
 });
 
 
@@ -114,7 +119,7 @@ const addBtn = document.getElementById('add');
 addBtn.addEventListener('click', () => {
   userInput.value = '';
   output.innerHTML = '';
-  fileNameHolder.innerText = 'FileName';
+  fileNameHolder.innerText = 'untitled';
   fileNameHolder.focus();
 });
 
@@ -157,7 +162,7 @@ const updateFileName = (fileID, fileName) => {
     })
   });
 };
-
+//will trigger when fileNameHolder loses focus after being changed
 fileNameHolder.addEventListener('blur', (event) => {
   const span = event.target;
   const fileName = span.innerText;
@@ -171,3 +176,17 @@ fileNameHolder.addEventListener('blur', (event) => {
       getAllFiles();
     })
 });
+
+//updating file content
+const updateFileContent = (fileID, newContent) => {
+  return fetch(`/allfiles/${fileID}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      id: fileID,
+      newContent,
+    })
+  });
+};
