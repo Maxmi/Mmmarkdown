@@ -11,53 +11,53 @@ const db = require('./db');
 //functions for all files
 const listAllFiles = () => {
   return db.any(`
-    SELECT * FROM files RETURNING *;
+    SELECT * FROM files;
   `);
 };
 
 
 const listFilesByEditDate = () => {
   return db.any(`
-    SELECT * FROM files ORDER BY last_edited_on DESC RETURNING *;
+    SELECT * FROM files ORDER BY last_edited_on DESC;
   `);
 };
 
 
 const getCreationDates = () => {
   return db.any(`
-    SELECT created_on FROM files RETURNING *;
+    SELECT created_on FROM files;
   `)
 };
 
 
 //functions for individual files
 
-const saveFile = (file) => {
+const saveFile = ({name, newFile}) => {
   return db.one(`
-    INSERT INTO files (name, content, created_on, last_edited_on)
-    VALUES ($1, $2, $3, $4)
-    RETURNING name;
-  `, [name, content, created_on, last_edited_on])
+    INSERT INTO files (name, content)
+    VALUES ($1, $2)
+    RETURNING *;
+  `, [name, newFile])
 };
 
 
 const getFileById = (fileID) => {
   return db.one(`
-    SELECT * FROM files WHERE id = ${fileID} RETURNING *;
+    SELECT * FROM files WHERE id = ${fileID};
   `, [fileID]);
 };
 
 
 const getFileByName = (fileName) => {
   return db.one(`
-    SELECT * FROM files WHERE name = ${fileName} RETURNING *;
+    SELECT * FROM files WHERE name = ${fileName};
   `, [fileName]);
 };
 
 
 const getContentOfFile = (fileName) => {
   return db.one(`
-    SELECT content FROM files WHERE name = ${filename} RETURNING *;
+    SELECT content FROM files WHERE name = ${filename};
   `, [fileName]);
 };
 
@@ -76,7 +76,6 @@ const deleteFile = (fileID) => {
   return db.none(`
     DELETE FROM files
     WHERE id = $1
-    RETURNING *
   `, [fileID])
 };
 

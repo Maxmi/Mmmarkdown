@@ -38,10 +38,10 @@
 
 
       <div class="top">
-        <div><span>FileName</span></div>
+        <div><span contenteditable="true" class="fileName" id="fileName" >FileName</span></div>
         <div class="words"><span>__ words</span></div>
         <div class="save">
-          <button type="submit" name="saveBtn">Save</button>
+          <button type="submit" name="saveBtn" id="save">Save</button>
         </div>
       </div>
 
@@ -60,19 +60,18 @@
         <div class="right-title">PREVIEW</div>
 
         <div class="right-text">
-          <textarea id="output" name="preview-text" rows="20" cols="50"></textarea>
+          <div id="result-html"></div>
+          <%# <textarea id="output" name="preview-text" rows="20" cols="50"></textarea>%>
         </div>
 
       </div>
       <div class="empty">
       </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.js"></script>
     <script src="https://cdn.jsdelivr.net/remarkable/1.7.1/remarkable.min.js">
-      
     </script>
-    <%# <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.7/marked.min.js">
 
-    </script>%>
     <script type="text/javascript" src="js/script.js">
 
     </script>

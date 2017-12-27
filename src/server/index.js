@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
 
 //route to allfiles - get - read all files
 router.get('/allfiles', (req, res) => {
-  queries.listAllFiles()
+  return queries.listAllFiles()
     .then(allfiles => {
       res.status(200).json({
         allfiles
@@ -23,10 +23,14 @@ router.get('/allfiles', (req, res) => {
 
 //route to allfiles - post - create new file
 router.post('/allfiles', (req, res) => {
-  const {newFile} = req.body;
-  return queries.saveFile()
-    .then((newFile) => {
-      res.status(200).json(newFile)
+
+  const {name, newFile} = req.body;
+  console.log('this is name', name);
+  console.log('this is newFile', newFile);
+
+  return queries.saveFile({name, newFile})
+    .then((result) => {
+      res.status(200).json(result)
     })
     .catch(err => console.log(err));
 });
