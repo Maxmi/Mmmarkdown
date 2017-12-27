@@ -9,7 +9,6 @@ router.get('/', (req, res) => {
 });
 
 
-
 //route to allfiles - get - read all files
 router.get('/allfiles', (req, res) => {
   return queries.listAllFiles()
@@ -21,13 +20,11 @@ router.get('/allfiles', (req, res) => {
     .catch(err => console.log(err));
 });
 
+
 //route to allfiles - post - create new file
 router.post('/allfiles', (req, res) => {
 
   const {name, newFile} = req.body;
-  console.log('this is name', name);
-  console.log('this is newFile', newFile);
-
   return queries.saveFile({name, newFile})
     .then((result) => {
       res.status(200).json(result)
@@ -35,32 +32,39 @@ router.post('/allfiles', (req, res) => {
     .catch(err => console.log(err));
 });
 
+
 //route to one file - get one file
 router.get('/allfiles/:fileID', (req, res) => {
   const {fileID} = parseInt(req.params);
-  queries.getFileById(fileID)
+  return queries.getFileById(fileID)
     .then(file => {
       res.render(`index/${fileID}`);
     })
+    .catch(err => console.log(err))
 })
+
 
 //route to update one file
 router.put('/allfiles/:fileID', (req, res) => {
   const {fileID} = parseInt(req.params);
   const {newContent} = req.body;
-  queries.updateFile(fileID, newContent)
+  return queries.updateFile(fileID, newContent)
     .then(file => {
       res.render('index');
     })
-})
+    .catch(err => console.log(err));
+});
+
 
 //route to delete one file
 router.delete('/allfiles/:fileID', (req, res) => {
-  const {fileID} = parseInt(req.params);
-  queries.deleteFile(fileID)
-    .then(file => {
+  const fileID = parseInt(req.params.fileID);
+
+  return queries.deleteFile(fileID)
+    .then(() => {
       res.render('index');
     })
+    .catch(err => console.log(err))
 })
 
 

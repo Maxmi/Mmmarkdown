@@ -8,7 +8,8 @@ const createLi = (name, id) => {
   const div = document.createElement('div');
   div.classList.add('icon');
   const deleteBtn = document.createElement('button');
-  deleteBtn.innerHTML = '<i class="material-icons">delete</i>';
+  deleteBtn.classList.add('delete');
+  deleteBtn.innerHTML = '<i class="material-icons delete">delete</i>';
   div.appendChild(deleteBtn);
   li.innerText = name;
   li.appendChild(div);
@@ -78,4 +79,24 @@ saveBtn.addEventListener('click', () => {
       newFile: input
     })
   });
+});
+
+
+//deleting a file
+const deleteFile = fileID => {
+  return fetch(`/allfiles/${fileID}`, {
+    method: 'DELETE'
+  });
+};
+
+
+ul.addEventListener('click', (event) => {
+  if(event.target.classList.contains('delete')) {
+    const li = event.target.closest('li');
+    const fileID = li.getAttribute('data-id');
+    deleteFile(fileID)
+      .then(() => {
+        ul.removeChild(li);
+      });
+  }
 });

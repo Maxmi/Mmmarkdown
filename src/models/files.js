@@ -43,21 +43,21 @@ const saveFile = ({name, newFile}) => {
 
 const getFileById = (fileID) => {
   return db.one(`
-    SELECT * FROM files WHERE id = ${fileID};
+    SELECT * FROM files WHERE id = $1;
   `, [fileID]);
 };
 
 
 const getFileByName = (fileName) => {
   return db.one(`
-    SELECT * FROM files WHERE name = ${fileName};
+    SELECT * FROM files WHERE name = $1;
   `, [fileName]);
 };
 
 
 const getContentOfFile = (fileName) => {
   return db.one(`
-    SELECT content FROM files WHERE name = ${filename};
+    SELECT content FROM files WHERE name = $1;
   `, [fileName]);
 };
 
@@ -65,18 +65,18 @@ const getContentOfFile = (fileName) => {
 const updateFile = (fileID, newContent) => {
   return db.one(`
     UPDATE files
-    SET content = ${newContent}
-    WHERE id = ${fileID}
+    SET content = $2
+    WHERE id = $1
     RETURNING *;
-  `, [fileID, newContent])
-}
+  `, [fileID, newContent]);
+};
 
 
 const deleteFile = (fileID) => {
   return db.none(`
     DELETE FROM files
     WHERE id = $1
-  `, [fileID])
+  `, [fileID]);
 };
 
 
