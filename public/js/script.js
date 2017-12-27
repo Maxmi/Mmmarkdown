@@ -14,7 +14,7 @@ const createLi = (name, id) => {
   deleteBtn.innerHTML = '<i class="material-icons delete">delete</i>';
   div.appendChild(deleteBtn);
 
-  span.setAttribute('contenteditable', true);
+  // span.setAttribute('contenteditable', true);
   span.innerText = name;
   li.appendChild(span);
   li.appendChild(div);
@@ -27,10 +27,9 @@ const getAllFiles = () => {
   return fetch('/allfiles')
     .then(result => result.json())
     .then(result => {
-      console.log(result);
       allFiles = result.allfiles;
       allFiles.forEach(file => {
-        let li = createLi(file.name+'.md', file.id);
+        let li = createLi(file.name, file.id);
         ul.appendChild(li);
       });
     });
@@ -109,7 +108,7 @@ ul.addEventListener('click', (event) => {
 });
 
 
-//clearing textarea for new file and prompring for fileName 
+//clearing textarea for new file and prompting for fileName
 const addBtn = document.getElementById('add');
 
 addBtn.addEventListener('click', () => {
@@ -117,3 +116,28 @@ addBtn.addEventListener('click', () => {
   output.innerHTML = '';
   fileNameHolder.focus();
 });
+
+
+
+//opening a file
+const getFile = fileID => {
+  return fetch(`/allfiles/${fileID}`)
+}
+
+ul.addEventListener('click', (event) => {
+  if(event.target.tagName === 'SPAN') {
+    const li = event.target.closest('li');
+    li.classList.add('active');
+    const fileID = li.getAttribute('data-id');
+    getFile(fileID)
+      .then(result => {
+        return result.json();
+      })
+      .then(result => {
+        let content = result.content;
+        userInput.value = content;
+      })
+    const fileName = event.target.innerText;
+    fileNameHolder.innerText = fileName;
+  }
+})
