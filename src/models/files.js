@@ -3,7 +3,7 @@ const db = require('./db');
 //functions for all files
 const listAllFiles = () => {
   return db.any(`
-    SELECT * FROM files ORDER BY last_edited_on DESC;
+    SELECT * FROM files ORDER BY id DESC;
   `);
 };
 
@@ -15,7 +15,8 @@ const saveFile = ({name, newFile}) => {
     INSERT INTO files (name, content)
     VALUES ($1, $2)
     ON CONFLICT (name)
-    DO UPDATE SET name = $1
+    DO UPDATE
+    SET name = $1
     RETURNING *;
   `, [name, newFile])
 };

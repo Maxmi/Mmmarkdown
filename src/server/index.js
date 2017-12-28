@@ -50,7 +50,7 @@ router.put('/allfiles/:fileID', (req, res) => {
   const {newContent} = req.body;
 
   return queries.updateFileContent(fileID, newContent)
-    .then(file => {
+    .then(() => {
       res.render('index');
     })
     .catch(err => console.log(err));
@@ -62,11 +62,11 @@ router.put('/allfiles/update/:fileID', (req, res) => {
   const fileID = parseInt(req.params.fileID);
   const fileName = req.body.name;
   return queries.updateFileName(fileID, fileName)
-    .then(file => {
+    .then(() => {
       res.render('index');
     })
-    .catch(err => console.log(err));
-})
+    .catch(err => console.log(err))
+});
 
 
 //route to delete one file
@@ -78,7 +78,7 @@ router.delete('/allfiles/:fileID', (req, res) => {
       res.render('index');
     })
     .catch(err => console.log(err))
-})
+});
 
 
 module.exports = router;

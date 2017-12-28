@@ -14,7 +14,6 @@ const createLi = (name, id) => {
   deleteBtn.innerHTML = '<i class="material-icons delete">delete</i>';
   div.appendChild(deleteBtn);
 
-  // span.setAttribute('contenteditable', true);
   span.innerText = name;
   li.appendChild(span);
   li.appendChild(div);
@@ -64,7 +63,7 @@ const events = ['keyup', 'paste', 'cut', 'mouseup'];
 
 events.forEach(e => {
   userInput.addEventListener(e, _.debounce(convertText, 300, {maxWait: 500}));
-})
+});
 
 
 //saving new file
@@ -85,10 +84,18 @@ saveBtn.addEventListener('click', () => {
       newFile: input
     })
   })
-    .then(file => {
+    .then(() => {
       //clear ul, then fetch updated list of files
       ul.innerHTML = '';
       getAllFiles();
+    })
+    .then(()=> {
+      // add active class to the new file
+      // let files = document.getElementsByTagName('li');
+      // console.log(files);
+      // let newFile = files[0];
+      // console.log('this is new file', newFile);
+      // newFile.classList.add('active');
     })
 });
 
@@ -108,6 +115,8 @@ ul.addEventListener('click', (event) => {
     deleteFile(fileID)
       .then(() => {
         ul.removeChild(li);
+        fileNameHolder.innerText = 'untitled';
+        userInput.value = '';
       });
   }
 });
@@ -124,11 +133,10 @@ addBtn.addEventListener('click', () => {
 });
 
 
-
 //opening a file
 const getFile = fileID => {
-  return fetch(`/allfiles/${fileID}`)
-}
+  return fetch(`/allfiles/${fileID}`);
+};
 
 ul.addEventListener('click', (event) => {
   if(event.target.tagName === 'SPAN') {
@@ -142,14 +150,14 @@ ul.addEventListener('click', (event) => {
       .then(result => {
         let content = result.content;
         userInput.value = content;
-      })
+      });
     const fileName = event.target.innerText;
     fileNameHolder.innerText = fileName;
   }
-})
+});
 
 
-//updating file name
+//renaming file - this function is running even when creating new file...
 const updateFileName = (fileID, fileName) => {
   return fetch(`/allfiles/update/${fileID}`, {
     method: 'PUT',
@@ -174,7 +182,7 @@ fileNameHolder.addEventListener('blur', (event) => {
       //clear ul, then fetch updated list of files
       ul.innerHTML = '';
       getAllFiles();
-    })
+    });
 });
 
 
