@@ -91,11 +91,9 @@ saveBtn.addEventListener('click', () => {
     })
     .then(()=> {
       // add active class to the new file
-      // let files = document.getElementsByTagName('li');
-      // console.log(files);
-      // let newFile = files[0];
-      // console.log('this is new file', newFile);
-      // newFile.classList.add('active');
+      const li = document.querySelector('li');
+      console.log(li);
+      li.classList.toggle('active');
     })
 });
 

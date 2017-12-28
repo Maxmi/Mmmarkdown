@@ -3,7 +3,7 @@ const db = require('./db');
 //functions for all files
 const listAllFiles = () => {
   return db.any(`
-    SELECT * FROM files ORDER BY id DESC;
+    SELECT * FROM files ORDER BY modified DESC;
   `);
 };
 

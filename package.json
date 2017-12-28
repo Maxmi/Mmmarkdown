@@ -8,7 +8,7 @@
     "db:create": "createdb markdown",
     "db:schema": "psql markdown < src/models/schema.sql",
     "db:drop": "dropdb markdown",
-    "db:reset": "npm run db:drop && npm run db:created && npm run db:schema",
+    "db:reset": "npm run db:drop && npm run db:create && npm run db:schema",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
