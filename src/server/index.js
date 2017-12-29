@@ -57,18 +57,6 @@ router.put('/allfiles/:fileID', (req, res) => {
 });
 
 
-//route to update file name
-router.put('/allfiles/update/:fileID', (req, res) => {
-  const fileID = parseInt(req.params.fileID);
-  const fileName = req.body.name;
-  return queries.updateFileName(fileID, fileName)
-    .then(() => {
-      res.render('index');
-    })
-    .catch(err => console.log(err))
-});
-
-
 //route to delete one file
 router.delete('/allfiles/:fileID', (req, res) => {
   const fileID = parseInt(req.params.fileID);

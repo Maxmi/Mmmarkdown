@@ -1,205 +1,144 @@
-//getting list of files from db and rendering them
-const ul = document.getElementById('list-of-files');
+document.addEventListener('DOMContentLoaded', function() {
 
-let allFiles = [];
+  //converting markdown text
+  const md = new Remarkable({
+    html: false, // Enable HTML tags in source
+    xhtmlOut: false, // Use '/' to close single tags (<br />)
+    breaks: false, // Convert '\n' in paragraphs into <br>
+    linkify: false, // Autoconvert URL-like text to links
+    // Enable some language-neutral replacement + quotes beautification
+    typographer: false,
+    // Double + single quotes replacement pairs, when typographer enabled,
+    // and smartquotes on. Set doubles to '«»' for Russian, '„“' for German.
+    quotes: '“”‘’'
+  });
 
-const createLi = (name, id) => {
-  const li = document.createElement('li');
-  const div = document.createElement('div');
-  const span = document.createElement('span');
-  const deleteBtn = document.createElement('button');
+  const addBtn = document.getElementById('add');
+  const ul = document.getElementById('list-of-files');
+  const saveBtn = document.getElementById('save');
+  const saveChangesBtn = document.getElementById('update');
 
-  div.classList.add('icon');
-  deleteBtn.classList.add('delete');
-  deleteBtn.innerHTML = '<i class="material-icons delete">delete</i>';
-  div.appendChild(deleteBtn);
+  let fileNameHolder = document.getElementById('fileName');
+  let allFiles = [];
+  let userInput = document.getElementById('input');
+  let output = document.getElementById('result-html');
 
-  span.innerText = name;
-  li.appendChild(span);
-  li.appendChild(div);
-  li.setAttribute('data-id', id);
-  li.classList.add('item');
-  return li;
-};
+  const convertText = () => {
+    output.innerHTML = md.render(userInput.value);
+    setWordCount();
+  };
 
-const getAllFiles = () => {
-  return fetch('/allfiles')
-    .then(result => result.json())
-    .then(result => {
+  ['keyup', 'paste', 'cut', 'mouseup'].forEach(e => {
+    userInput.addEventListener(e, _.debounce(convertText, 300, {maxWait: 500}));
+  });
+
+
+  const setWordCount = () => {
+    const wordsContainer = document.getElementById('words');
+    const wordCount = helpers.countWords(output);
+    wordsContainer.innerText = wordCount + ' words';
+  }
+
+  //fetching one file
+  const getFile = fileID => {
+    return fetches.getOneFile(fileID).then(result => {
+      userInput.value = result.content;
+      convertText();
+    });
+  };
+
+
+  //fetch all files, then open the first file
+  const getAllFiles = () => {
+    return fetches.getAllFiles().then(result => {
       allFiles = result.allfiles;
       allFiles.forEach(file => {
-        let li = createLi(file.name, file.id);
+        const li = helpers.createLi(file.name, file.id);
         ul.appendChild(li);
+        const firstItem = document.querySelector('li');
+        firstItem.classList.add('active');
+        const fileID = firstItem.getAttribute('data-id');
+        getFile(fileID);
+        //put fileName to fileNameHolder place
+        const fileName = document.querySelector('li > span').innerText;
+        fileNameHolder.innerText = fileName;
       });
     });
-};
-
-getAllFiles();
+  };
 
 
-//converting markdown text
-var md = new Remarkable({
-  html: false, // Enable HTML tags in source
-  xhtmlOut: false, // Use '/' to close single tags (<br />)
-  breaks: false, // Convert '\n' in paragraphs into <br>
-  linkify: false, // Autoconvert URL-like text to links
-  // Enable some language-neutral replacement + quotes beautification
-  typographer: false,
-  // Double + single quotes replacement pairs, when typographer enabled,
-  // and smartquotes on. Set doubles to '«»' for Russian, '„“' for German.
-  quotes: '“”‘’'
-});
+  getAllFiles();
 
+  //saving new file
+  saveBtn.addEventListener('click', () => {
+    let input = userInput.value;
+    let fileName = fileNameHolder.innerText;
 
-let userInput = document.getElementById('input');
-
-let output = document.getElementById('result-html');
-
-function convertText () {
-  output.innerHTML = md.render(userInput.value);
-}
-
-const events = ['keyup', 'paste', 'cut', 'mouseup'];
-
-events.forEach(e => {
-  userInput.addEventListener(e, _.debounce(convertText, 300, {maxWait: 500}));
-});
-
-
-//saving new file
-const saveBtn = document.getElementById('save');
-let fileNameHolder = document.getElementById('fileName');
-
-saveBtn.addEventListener('click', () => {
-  let input = userInput.value;
-  let fileName = fileNameHolder.innerText;
-
-  fetch('/allfiles', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      name: fileName,
-      newFile: input
-    })
-  })
-    .then(() => {
+    fetches.saveFile(fileName, input).then(() => {
       //clear ul, then fetch updated list of files
       ul.innerHTML = '';
       getAllFiles();
-    })
-    .then(()=> {
-      // add active class to the new file
-      const li = document.querySelector('li');
-      console.log(li);
-      li.classList.toggle('active');
-    })
-});
-
-
-//deleting a file
-const deleteFile = fileID => {
-  return fetch(`/allfiles/${fileID}`, {
-    method: 'DELETE'
+    });
   });
-};
 
 
-ul.addEventListener('click', (event) => {
-  if(event.target.classList.contains('delete')) {
-    const li = event.target.closest('li');
-    const fileID = li.getAttribute('data-id');
-    deleteFile(fileID)
-      .then(() => {
+  //deleting a file
+  ul.addEventListener('click', (event) => {
+    if (event.target.classList.contains('delete')) {
+      const li = event.target.closest('li');
+      const fileID = li.getAttribute('data-id');
+      fetches.deleteFile(fileID).then(() => {
+        //remove the clicked file and make first file active
         ul.removeChild(li);
         fileNameHolder.innerText = 'untitled';
         userInput.value = '';
+        const firstItem = document.querySelector('li');
+        firstItem.classList.add('active');
       });
-  }
-});
+    }
+  });
 
+  //creating new file
+  addBtn.addEventListener('click', () => {
+    //find li with class active and remove it
+    const activeItem = document.querySelector('.active');
+    activeItem.classList.remove('active');
+    //clear fields for input and output
+    userInput.value = '';
+    output.innerHTML = '';
+    //set default name and propmt for name
+    fileNameHolder.innerText = 'untitled';
+    fileNameHolder.focus();
+  });
 
-//clearing textarea for new file and prompting for fileName
-const addBtn = document.getElementById('add');
+  //opening a file on click
+  ul.addEventListener('click', (event) => {
+    //find li with active class and remove active class from it
+    const activeItem = document.querySelector('.active');
+    if (!activeItem) {
+      const firstItem = document.querySelector('li');
+      firstItem.classList.add('active');
+    } else {
+      activeItem.classList.remove('active');
+    }
 
-addBtn.addEventListener('click', () => {
-  userInput.value = '';
-  output.innerHTML = '';
-  fileNameHolder.innerText = 'untitled';
-  fileNameHolder.focus();
-});
-
-
-//opening a file
-const getFile = fileID => {
-  return fetch(`/allfiles/${fileID}`);
-};
-
-ul.addEventListener('click', (event) => {
-  if(event.target.tagName === 'SPAN') {
+    //find the clicked item, get it's id, make it active
     const li = event.target.closest('li');
-    li.classList.toggle('active');
     const fileID = li.getAttribute('data-id');
-    getFile(fileID)
-      .then(result => {
-        return result.json();
-      })
-      .then(result => {
-        let content = result.content;
-        userInput.value = content;
-      });
+    li.classList.add('active');
+    //retrive content of the file
+    getFile(fileID);
+    //populate fileNameHolder
     const fileName = event.target.innerText;
     fileNameHolder.innerText = fileName;
-  }
-});
-
-
-//renaming file - this function is running even when creating new file...
-const updateFileName = (fileID, fileName) => {
-  return fetch(`/allfiles/update/${fileID}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      id: fileID,
-      name: fileName,
-    })
   });
-};
-//will trigger when fileNameHolder loses focus after being changed
-fileNameHolder.addEventListener('blur', (event) => {
-  const span = event.target;
-  const fileName = span.innerText;
-  const li = document.querySelector('.active');
-  const fileID = li.getAttribute('data-id');
 
-  updateFileName(fileID, fileName)
-    .then(() => {
-      //clear ul, then fetch updated list of files
-      ul.innerHTML = '';
-      getAllFiles();
-    });
-});
-
-
-//updating file content
-const saveChangesBtn = document.getElementById('update');
-
-saveChangesBtn.addEventListener('click', () => {
-  const li = document.querySelector('.active');
-  const fileID = li.getAttribute('data-id');
-  let input = userInput.value;
-
-  fetch(`/allfiles/${fileID}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      fileID ,
-      newContent: input
-    })
+  //updating content
+  saveChangesBtn.addEventListener('click', () => {
+    const li = document.querySelector('.active');
+    const fileID = li.getAttribute('data-id');
+    let input = userInput.value;
+    fetches.upsertFile(fileID, input);
   });
-});
+
+}); //most outer function

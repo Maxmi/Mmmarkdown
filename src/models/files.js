@@ -46,15 +46,6 @@ const updateFileContent = (fileID, newContent) => {
 };
 
 
-const updateFileName = (fileID, fileName) => {
-  return db.one(`
-    UPDATE files
-    SET name = $2
-    WHERE id = $1
-    RETURNING *;
-  `, [fileID, fileName])
-}
-
 const deleteFile = (fileID) => {
   return db.none(`
     DELETE FROM files
@@ -66,9 +57,7 @@ const deleteFile = (fileID) => {
 module.exports = {
   listAllFiles,
   saveFile,
-  // getFile,
   getFileContent,
   updateFileContent,
-  updateFileName,
   deleteFile
 };

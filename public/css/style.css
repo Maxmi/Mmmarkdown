@@ -61,8 +61,7 @@ body {
 .top {
   display: grid;
   grid-column: 2/7;
-  grid-row: 1;
-  grid-template-columns: 85% 10% 10%;
+  grid-template-columns: 93% 10%;
   background-color: grey;
   color: white;
   font-style: bold;
