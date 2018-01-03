@@ -78,6 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
       //clear ul, then fetch updated list of files
       ul.innerHTML = '';
       getAllFiles();
+      userInput.focus();
     });
   });
 
@@ -92,8 +93,8 @@ document.addEventListener('DOMContentLoaded', function() {
         ul.removeChild(li);
         fileNameHolder.innerText = 'untitled';
         userInput.value = '';
-        const firstItem = document.querySelector('li');
-        firstItem.classList.add('active');
+        output.innerHTML = '';
+        userInput.focus();
       });
     }
   });
@@ -102,7 +103,10 @@ document.addEventListener('DOMContentLoaded', function() {
   addBtn.addEventListener('click', () => {
     //find li with class active and remove it
     const activeItem = document.querySelector('.active');
-    activeItem.classList.remove('active');
+    if(activeItem) {
+      activeItem.classList.remove('active');
+    }
+
     //clear fields for input and output
     userInput.value = '';
     output.innerHTML = '';
@@ -111,8 +115,8 @@ document.addEventListener('DOMContentLoaded', function() {
     fileNameHolder.focus();
   });
 
-  //opening a file on click
-  ul.addEventListener('click', (event) => {
+  //opening a file on double click
+  ul.addEventListener('dblclick', (event) => {
     //find li with active class and remove active class from it
     const activeItem = document.querySelector('.active');
     if (!activeItem) {

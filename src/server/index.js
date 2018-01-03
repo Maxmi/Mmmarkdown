@@ -17,7 +17,7 @@ router.get('/allfiles', (req, res) => {
         allfiles
       });
     })
-    .catch(err => console.log(err));
+    .catch(console.error);
 });
 
 
@@ -28,7 +28,7 @@ router.post('/allfiles', (req, res) => {
     .then((result) => {
       res.status(200).json(result)
     })
-    .catch(err => console.log(err));
+    .catch(console.error);
 });
 
 
@@ -40,7 +40,7 @@ router.get('/allfiles/:fileID', (req, res) => {
     .then(content => {
       res.status(200).json(content)
     })
-    .catch(err => console.log(err))
+    .catch(console.error)
 })
 
 
@@ -53,7 +53,7 @@ router.put('/allfiles/:fileID', (req, res) => {
     .then(() => {
       res.render('index');
     })
-    .catch(err => console.log(err));
+    .catch(console.error);
 });
 
 
@@ -65,7 +65,7 @@ router.delete('/allfiles/:fileID', (req, res) => {
     .then(() => {
       res.render('index');
     })
-    .catch(err => console.log(err))
+    .catch(console.error)
 });
 
 

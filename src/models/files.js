@@ -18,15 +18,8 @@ const saveFile = ({name, newFile}) => {
     DO UPDATE
     SET name = $1
     RETURNING *;
-  `, [name, newFile])
+  `, [name, newFile]);
 };
-
-
-// const getFile = (fileID) => {
-//   return db.one(`
-//     SELECT * FROM files WHERE id = $1;
-//   `, [fileID]);
-// };
 
 
 const getFileContent = (fileID) => {
