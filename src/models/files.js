@@ -1,41 +1,68 @@
 const db = require('./db');
 
-//functions for all files
+/**
+ * Get all files from db
+ * @returns {Promise} - Promise resolving to array of objects,
+ *                      each representing a file
+ */
 const listAllFiles = () => {
-  return db.any(`
-    SELECT * FROM files ORDER BY modified DESC;
-  `);
+  const query = `
+    SELECT * 
+    FROM files 
+    ORDER BY modified DESC`
+
+  return db.any(query);
 };
 
 
-//functions for individual files
 
-const saveFile = ({name, newFile}) => {
-  return db.one(`
-    INSERT INTO files (name, content)
-    VALUES ($1, $2)
+/**
+ * Upsert specified file
+ * @param {object} - object with string properties 'name' and 'content'
+ *                  - name: the name of the new file
+ *                  - content: content of the new file 
+ * @returns {Promise} - Promise resolving to an object representing the file
+ */
+const saveFile = ({name, content}) => {
+  const upsertQuery = `
+  INSERT INTO files (name, content)
+  VALUES ($1, $2)
     ON CONFLICT (name)
     DO UPDATE
-    SET name = $1
-    RETURNING *;
-  `, [name, newFile]);
+    SET name = $1, content = $2
+  RETURNING *;
+`
+  return db.one(upsertQuery, [name, content]);
 };
 
-
+/**
+ * Get contents for specified file ID
+ * @param {string or Number} fileID - id of file to retrieve
+ * @returns {Promise} - Promise resolving to object with the key 'content'
+ */
 const getFileContent = (fileID) => {
-  return db.one(`
-    SELECT content FROM files WHERE id = $1;
-  `, [fileID]);
+  const query = `
+    SELECT content 
+    FROM files 
+    WHERE id = $1;
+  `
+  return db.one(query, [fileID]);
 };
 
-
+/**
+ * Update contents of file
+ * @param {string or number} fileID - id of file to update
+ * @param {string} newContent - New contents
+ * @returns {Promise} - Promise resolving to object with file data
+ */
 const updateFileContent = (fileID, newContent) => {
-  return db.one(`
+  const query = `
     UPDATE files
     SET content = $2
     WHERE id = $1
     RETURNING *;
-  `, [fileID, newContent]);
+  `
+  return db.one(query, [fileID, newContent]);
 };
 
 

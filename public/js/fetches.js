@@ -19,7 +19,7 @@ const fetches = {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({name: fileName, newFile: input})
+      body: JSON.stringify({name: fileName, content: input})
     });
   },
 
