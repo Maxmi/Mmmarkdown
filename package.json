@@ -5,7 +5,7 @@
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
-    "db:create": "createdb markdown",
+    "db:create": "dropdb --if-exists markdown && createdb markdown",
     "db:schema": "psql markdown < src/models/schema.sql",
     "db:drop": "dropdb markdown",
     "db:reset": "npm run db:drop && npm run db:create && npm run db:schema",
@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "ajv": "^5.5.1",
-    "eslint": "^4.13.1",  
+    "eslint": "^4.13.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
