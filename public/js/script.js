@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-
   //converting markdown text
   const md = new Remarkable({
     html: false, // Enable HTML tags in source
@@ -25,19 +24,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const convertText = () => {
     output.innerHTML = md.render(userInput.value);
-    setWordCount();
+    // setWordCount();
   };
 
   ['keyup', 'paste', 'cut', 'mouseup'].forEach(e => {
-    userInput.addEventListener(e, _.debounce(convertText, 300, {maxWait: 500}));
+    userInput.addEventListener(e, _.debounce(convertText, 300, { maxWait: 500 }));
   });
 
-
-  const setWordCount = () => {
-    const wordsContainer = document.getElementById('words');
-    const wordCount = helpers.countWords(output);
-    wordsContainer.innerText = wordCount + ' words';
-  }
+  // const setWordCount = () => {
+  //   const wordsContainer = document.getElementById('words');
+  //   const wordCount = helpers.countWords(output);
+  //   wordsContainer.innerText = wordCount + ' words';
+  // };
 
   //fetching one file
   const getFile = fileID => {
@@ -46,7 +44,6 @@ document.addEventListener('DOMContentLoaded', function() {
       convertText();
     });
   };
-
 
   //fetch all files, then open the first file
   const getAllFiles = () => {
@@ -66,7 +63,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   };
 
-
   getAllFiles();
 
   //saving new file
@@ -82,9 +78,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-
   //deleting a file
-  ul.addEventListener('click', (event) => {
+  ul.addEventListener('click', event => {
     if (event.target.classList.contains('delete')) {
       const li = event.target.closest('li');
       const fileID = li.getAttribute('data-id');
@@ -103,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
   addBtn.addEventListener('click', () => {
     //find li with class active and remove it
     const activeItem = document.querySelector('.active');
-    if(activeItem) {
+    if (activeItem) {
       activeItem.classList.remove('active');
     }
 
@@ -116,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   //opening a file on double click
-  ul.addEventListener('dblclick', (event) => {
+  ul.addEventListener('dblclick', event => {
     //find li with active class and remove active class from it
     const activeItem = document.querySelector('.active');
     if (!activeItem) {
@@ -144,5 +139,4 @@ document.addEventListener('DOMContentLoaded', function() {
     let input = userInput.value;
     fetches.upsertFile(fileID, input);
   });
-
 }); //most outer function

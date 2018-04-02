@@ -5,12 +5,12 @@ const fetches = {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({fileID, newContent: input})
+      body: JSON.stringify({ fileID, newContent: input })
     });
   },
 
   deleteFile: fileID => {
-    return fetch(`/allfiles/${fileID}`, {method: 'DELETE'});
+    return fetch(`/allfiles/${fileID}`, { method: 'DELETE' });
   },
 
   saveFile: (fileName, input) => {
@@ -19,7 +19,7 @@ const fetches = {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({name: fileName, newFile: input})
+      body: JSON.stringify({ name: fileName, newFile: input })
     });
   },
 
@@ -27,9 +27,7 @@ const fetches = {
     return fetch('/allfiles').then(result => result.json());
   },
 
-  getOneFile: (fileID) => {
-    return fetch(`/allfiles/${fileID}`)
-      .then(result => result.json());
+  getOneFile: fileID => {
+    return fetch(`/allfiles/${fileID}`).then(result => result.json());
   }
-
 };

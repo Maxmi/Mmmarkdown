@@ -14,7 +14,6 @@ const listAllFiles = () => {
   return db.any(query);
 };
 
-
 /**
  * Upsert specified file
  * @param  {object} - object with string properties 'name' and 'content'
@@ -23,7 +22,7 @@ const listAllFiles = () => {
  * @return {Promise} - Promise resolving to an object representing the file
  */
 
-const saveFile = ({name, newFile}) => {
+const saveFile = ({ name, newFile }) => {
   const upsertQuery = `
     INSERT INTO files (name, content)
     VALUES ($1, $2)
@@ -40,7 +39,7 @@ const saveFile = ({name, newFile}) => {
  * @param  {string or number} fileID id of file to retrieve
  * @return {Promise} - Promise resolving to object with the key 'content'
  */
-const getFileContent = (fileID) => {
+const getFileContent = fileID => {
   const query = `
     SELECT content
     FROM files
@@ -69,14 +68,13 @@ const updateFileContent = (fileID, newContent) => {
  * Delete a file
  * @param  {string or number} fileID  [id of file to delete]
  */
-const deleteFile = (fileID) => {
+const deleteFile = fileID => {
   const query = `
     DELETE FROM files
     WHERE id = $1
   `;
   return db.none(query, [fileID]);
 };
-
 
 module.exports = {
   listAllFiles,
