@@ -27,8 +27,6 @@
   },
   "devDependencies": {
     "ajv": "^5.5.1",
-    "chai": "^4.1.2",
-    "chai-http": "^4.0.0",
     "eslint": "^4.13.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.8.0",

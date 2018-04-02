@@ -1,44 +1,43 @@
 # Mmmmmmarkdown
 
 ## Summary
-My implementation of [Mmmarkdown benchmark module of Learners Guild curriculum](https://curriculum.learnersguild.org/Phases/Practice/Modules/Mmmarkdown/)
-A full-stack web application - markdown editor where files are listed in the sidebar and last modified file is displayed on top of the list
+My implementation of [Mmmarkdown benchmark of Learners Guild curriculum](https://curriculum.learnersguild.org/Phases/Practice/Modules/Mmmarkdown/)
 
-# Built with:
+## To install
+- Clone/Fork
+- `$ npm install`
+- Create database (__WARNING__: This will remove any existing db called `markdown` in postgres.)
+  - `$ npm run db:create`
 
-* [Node.js](https://nodejs.org/)
-* [Express](https://expressjs.com/)
-* [PostgreSQL](https://www.postgresql.org/)
-* [AJAX](api.jquery.com/jquery.ajax)
-* [EJS](https://ejs.co/)
-* [Lodash](https://lodash.com/)
-* [Remarkable](https://github.com/jonschlinkert/remarkable)
-* [Material Design](https://material.io/icons/)  
+***** bds: Would you ever want to create the db and *not* run the schema? If the answer is no, then you could just do both in the db:create command. You could have a separate db:schema command if you think you'd want to be able to do that one separately...
+- Run db schema
+  - `$ npm run db:schema`
+- Start the server
+  - `$ npm start`
 
+***** bds: When I ran npm start, I got this error: 
 
+```
+> markdown@1.0.0 start /Users/bonnie/src/code_reviews/mira/Mmmarkdown
+> node src/app.js
 
-# Deployed Site
+/Users/bonnie/src/code_reviews/mira/Mmmarkdown/src/server/allfiles.js:65
+modules.export = router
+^
 
-  https://markdown-mira.herokuapp.com/
+ReferenceError: modules is not defined
+```
 
-# Getting started
+I changed it to module.export. Did this actually work on your machine...?
 
-These instructions are for getting a copy of the project on your local environment.
+After I fixed that, I got a second error: 
 
-- Clone/Fork - `git clone https://github.com/Maxmi/Mmmarkdown.git`
-- Install npm packages - `npm install`
+```
+/Users/bonnie/src/code_reviews/mira/Mmmarkdown/node_modules/express/lib/router/index.js:458
+      throw new TypeError('Router.use() requires a middleware function but got a ' + gettype(fn))
+      ^
 
-# Setting up your database
+TypeError: Router.use() requires a middleware function but got a Object
+```
 
-- Create database - `npm run db:create`
-(__WARNING__: This will remove any existing db called `markdown` in postgres)
-- Run db schema - `npm run db:schema`
-
-# Setting up your config
-
-* Run `cp .env.template .env` command in the terminal to create your own `.env` file and enter your config values in the `.env` file
-
-# Starting your development server
-
-* Run `npm start`
-* To access the app go to `localhost:3000`
+Aborting for now. ;)
