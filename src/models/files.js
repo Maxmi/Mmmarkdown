@@ -9,7 +9,7 @@ const listAllFiles = () => {
   const query = `
     SELECT *
     FROM files
-    ORDER BY modified DESC;
+    ORDER BY modified_at DESC;
   `;
   return db.any(query);
 };
