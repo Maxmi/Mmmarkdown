@@ -62,4 +62,6 @@ router.use((err, req, res, next) => {
   res.json({error: true, message: err.toString()})
 })
 
-modules.export = router
+// bds: had to change this to module.export 
+// modules.export = router
+module.export = router
