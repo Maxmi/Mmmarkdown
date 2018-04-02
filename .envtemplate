@@ -1,3 +1,5 @@
 DATABASE_URL=your postgres url
 DB_SSL=false
 NODE_ENV=your environment
+
+# bds: I'd say NODE_ENV should be 'production' by default
