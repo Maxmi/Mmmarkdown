@@ -19,7 +19,7 @@ A full-stack web application - markdown editor where files are listed in the sid
 
 # Deployed Site
 
-
+  https://markdown-mira.herokuapp.com/
 
 # Getting started
 
@@ -31,7 +31,7 @@ These instructions are for getting a copy of the project on your local environme
 # Setting up your database
 
 - Create database - `npm run db:create`
-(__WARNING__: This will remove any existing db called `markdown` in postgres.)
+(__WARNING__: This will remove any existing db called `markdown` in postgres)
 - Run db schema - `npm run db:schema`
 
 # Setting up your config
