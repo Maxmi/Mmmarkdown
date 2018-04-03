@@ -35,6 +35,8 @@ body {
   padding: 10px;
 }
 
+/* bds: NEVER use ids in css. IDs are for js, not for styling. Give the item
+   a class if you need to style it. */
 #list-of-files {
   padding: 0;
   margin: 0;

@@ -1,4 +1,6 @@
 const helpers = {
+  // bds: do not leave commented blocks of code in finished projects.
+
   // countWords: root => {
   //   const textNodes = textNodesUnder(root);
   //   const text = textNodes
@@ -15,6 +17,7 @@ const helpers = {
   //   return arr.length;
   // },
 
+  // bds: jsdoc!! 
   createLi: (name, id) => {
     const li = document.createElement('li');
     const div = document.createElement('div');
@@ -35,6 +38,7 @@ const helpers = {
   }
 };
 
+// bds: ditto about commented blocks of text
 // function textNodesUnder(root) {
 //   const walk = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
 //   const text = [];

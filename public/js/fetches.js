@@ -1,3 +1,4 @@
+// bds: have a comment (you can even have a jsdoc) at the top to describe what this file is for
 const fetches = {
   upsertFile: (fileID, input) => {
     fetch(`/allfiles/${fileID}`, {
