@@ -1,5 +1,6 @@
 const db = require('./db');
 
+// bds: hooray for jsdoc :-D
 /**
  * Get all files from db
  * @return {Promise} - Promise resolving to array of objects,
@@ -14,6 +15,8 @@ const listAllFiles = () => {
   return db.any(query);
 };
 
+// bds: see http://usejsdoc.org/tags-param.html (search for 
+// bds: "Documenting a destructuring parameter") for how to do this properly with JSDoc: 
 /**
  * Upsert specified file
  * @param  {object} - object with string properties 'name' and 'content'
@@ -22,7 +25,9 @@ const listAllFiles = () => {
  * @return {Promise} - Promise resolving to an object representing the file
  */
 
+// bds: very nice: destructuring the argument, and the upsert command. :-)
 const saveFile = ({ name, newFile }) => {
+  // bds: consider using named parameters instead of numbered parameters here, for clarity
   const upsertQuery = `
     INSERT INTO files (name, content)
     VALUES ($1, $2)
@@ -34,6 +39,8 @@ const saveFile = ({ name, newFile }) => {
   return db.one(upsertQuery, [name, newFile]);
 };
 
+// bds: see http://usejsdoc.org/tags-param.html (search for "Multiple types 
+// bds: and repeatable parameters") for how to do this in JSDoc
 /**
  * Get content for specified file ID
  * @param  {string or number} fileID id of file to retrieve
@@ -48,6 +55,8 @@ const getFileContent = fileID => {
   return db.one(query, [fileID]);
 };
 
+// bds: JSDoc formatting: no brackets, and all descriptions start with a capital
+// bds: letter and end with a period (e.g. New contents.)
 /**
  * Update contents of file
  * @param  {string or number} fileID  [id of file to update]

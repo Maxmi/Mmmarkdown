@@ -8,6 +8,8 @@ CREATE TABLE files (
   modified_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
+-- bds: triggers are awesome!! Include some comments here about why you're using
+-- bds: a trigger and what it's doing
 CREATE OR REPLACE FUNCTION update_modified_column()
 RETURNS TRIGGER AS $$
 BEGIN

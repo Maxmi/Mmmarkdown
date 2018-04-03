@@ -4,6 +4,8 @@
 My implementation of [Mmmarkdown benchmark module of Learners Guild curriculum](https://curriculum.learnersguild.org/Phases/Practice/Modules/Mmmarkdown/)
 A full-stack web application - markdown editor where files are listed in the sidebar and last modified file is displayed on top of the list
 
+***** bds: Since this is a learning project, specify exactly what you learned by doing the project.
+
 **** bds: You didn't mention the coolest part of the app: that it previews the markdown in real time! :)
 
 ***** bds: Also: talk about the architecture: a single page app where all communication with the server is done via AJAX after the initial load, etc.
