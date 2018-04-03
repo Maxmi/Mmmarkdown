@@ -8,6 +8,8 @@ app.set('view engine', 'ejs');
 app.set('views', `${__dirname}/views`);
 
 app.use(express.static('public'));
+
+// bds: do you need both urlencoded *and* json? 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
