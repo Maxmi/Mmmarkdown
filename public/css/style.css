@@ -127,6 +127,11 @@ body {
   float: right;
 }
 
+.updateBtn {
+  background-color: grey;
+  border: 1px solid #000;
+}
+
 .empty-side {
   padding-top: 150px;
   padding-left: 10px;

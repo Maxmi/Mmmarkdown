@@ -8,7 +8,7 @@ CREATE TABLE files (
   modified_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
--- every time a file is touched - this trigger will update file's modified_at column, so that file will be displayed on top of the list 
+-- every time a file is touched - this trigger will update file's modified_at column, so that this file will be displayed on top of the list
 
 CREATE OR REPLACE FUNCTION update_modified_column()
 RETURNS TRIGGER AS $$

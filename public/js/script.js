@@ -64,28 +64,40 @@ document.addEventListener('DOMContentLoaded', function() {
         getFile(fileID);
         // put fileName to fileNameHolder place
         const fileName = document.querySelector('li > span').innerText;
-        fileNameHolder.innerText = fileName;
+        fileNameHolder.value = fileName;
       });
     });
   };
 
   getAllFiles();
 
-  // saving new file
+  // creating new file
+  addBtn.addEventListener('click', () => {
+    // find li with class active and remove it
+    const activeItem = document.querySelector('.active');
+    if (activeItem) {
+      activeItem.classList.remove('active');
+    }
+    //  clear fields for input and output
+    userInput.value = '';
+    output.innerHTML = '';
+    // set default name and propmt for name
+    fileNameHolder.value = 'untitled';
+    fileNameHolder.focus();
+  });
+
+
+  // saving a file
   saveBtn.addEventListener('click', () => {
     let input = userInput.value;
-    let fileName = fileNameHolder.innerText;
+    let fileName = fileNameHolder.value;
 
     fetches.saveFile(fileName, input).then(() => {
-      // bds: is a fetch necessary here? Could you save on the
-      // bds: network traffic and simply add the new file to the list...?
       // clear ul, then fetch updated list of files
       ul.innerHTML = '';
       getAllFiles();
       userInput.focus();
     });
-    // make the button disabled after saving the file, preventing user from clicking on it again
-    saveBtn.disabled = true;
   });
 
   // deleting a file
@@ -98,30 +110,12 @@ document.addEventListener('DOMContentLoaded', function() {
       fetches.deleteFile(fileID).then(() => {
         //remove the clicked file and make first file active
         ul.removeChild(li);
-        fileNameHolder.innerText = 'untitled';
+        fileNameHolder.value = 'untitled';
         userInput.value = '';
         output.innerHTML = '';
         userInput.focus();
       });
     }
-  });
-
-  // creating new file
-  addBtn.addEventListener('click', () => {
-    // find li with class active and remove it
-    const activeItem = document.querySelector('.active');
-    if (activeItem) {
-      activeItem.classList.remove('active');
-    }
-
-    //  clear fields for input and output
-    userInput.value = '';
-    output.innerHTML = '';
-    // set default name and propmt for name
-    fileNameHolder.innerText = 'untitled';
-    fileNameHolder.focus();
-    //make the button clickable
-    saveBtn.disabled = false;
   });
 
   // opening a file on double click
@@ -134,32 +128,13 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
       activeItem.classList.remove('active');
     }
-
-
-    // find the clicked item, get it's id, make it active
-
-    // bds: if you add the event listener to each of the li's, (instead of the ul)
-    // bds: then you can just use event.target here -- it's more precise.
-    // bds: the down side is, you'd need to make sure you add the event listener
-    // bds: whenever you created a new file in the list.
     const li = event.target.closest('li');
     const fileID = li.getAttribute('data-id');
     li.classList.add('active');
     // retrive content of the file
     getFile(fileID);
     // populate fileNameHolder
-
-    // bds: what *is* the event.target here? It's the ul, right?
-    // bds: it's weird that the innerText is the filename of the selected file...
     const fileName = event.target.innerText;
-    fileNameHolder.innerText = fileName;
-  });
-
-  // updating content
-  saveChangesBtn.addEventListener('click', () => {
-    const li = document.querySelector('.active');
-    const fileID = li.getAttribute('data-id');
-    let input = userInput.value;
-    fetches.upsertFile(fileID, input);
+    fileNameHolder.value = fileName;
   });
 }); //most outer function

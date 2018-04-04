@@ -2,8 +2,9 @@ const pgp = require('pg-promise')();
 
 /**
  * Function to compile a connectionString depending on environment
- * @return {string} - String representing a DATABASE_URL variable 
+ * @return {string} - String representing a DATABASE_URL variable
  */
+
 const makeConnectionString = () => {
   switch(process.env.NODE_ENV) {
   case 'production':

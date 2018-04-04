@@ -10,7 +10,6 @@
     "db:schema": "psql markdown < src/models/schema.sql",
     "db:drop": "dropdb markdown",
     "db:reset": "npm run db:drop && npm run db:create && npm run db:schema",
-    "db:heroku:create": "psql -h $HOSTNAME -U $UNAME -d $DB_NAME -W $PW < src/models/schema.sql",
     "test": "NODE_ENV=test mocha --recursive --exit",
     "test:db:create": "NODE_ENV=test dropdb --if-exists markdown_test && createdb markdown_test",
     "test:db:schema": "NODE_ENV=test psql markdown_test < src/models/schema.sql",

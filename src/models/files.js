@@ -15,7 +15,7 @@ const listAllFiles = () => {
 };
 
 /**
- * Upsert specified file
+ * Upsert specified file - insert if it's new, update if it's existing file
  * @param  {object} - Object with string properties 'name' and 'content'
  *                      - name: the name of the new file
  *                      - content: content of the new file
@@ -26,10 +26,10 @@ const saveFile = ({ name, newFile }) => {
   const upsertQuery = `
     INSERT INTO files (name, content)
     VALUES ($1, $2)
-      ON CONFLICT (name)
-      DO UPDATE
-      SET name = $1
-      RETURNING *
+    ON CONFLICT (name)
+    DO UPDATE
+    SET name = $1, content = $2
+    RETURNING *
   `;
   return db.one(upsertQuery, [name, newFile]);
 };
