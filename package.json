@@ -5,6 +5,7 @@
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
+    "db:init": "npm run db:create && npm run db:schema",
     "db:create": "dropdb --if-exists markdown && createdb markdown",
     "db:schema": "psql markdown < src/models/schema.sql",
     "db:drop": "dropdb markdown",

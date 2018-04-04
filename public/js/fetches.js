@@ -1,7 +1,11 @@
-// bds: have a comment (you can even have a jsdoc) at the top to describe what this file is for
+/**
+ * [An object with properties that will be used for file manipulations  ]
+ * @type {Object}
+ */
+
 const fetches = {
   upsertFile: (fileID, input) => {
-    fetch(`/allfiles/${fileID}`, {
+    fetch(`/files/${fileID}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -11,11 +15,11 @@ const fetches = {
   },
 
   deleteFile: fileID => {
-    return fetch(`/allfiles/${fileID}`, { method: 'DELETE' });
+    return fetch(`/files/${fileID}`, { method: 'DELETE' });
   },
 
   saveFile: (fileName, input) => {
-    return fetch('/allfiles', {
+    return fetch('/files', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -25,10 +29,10 @@ const fetches = {
   },
 
   getAllFiles: () => {
-    return fetch('/allfiles').then(result => result.json());
+    return fetch('/files').then(result => result.json());
   },
 
   getOneFile: fileID => {
-    return fetch(`/allfiles/${fileID}`).then(result => result.json());
+    return fetch(`/files/${fileID}`).then(result => result.json());
   }
 };

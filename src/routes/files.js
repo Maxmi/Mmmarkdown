@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const queries = require('../models/files');
 
-// bds: put space between // and comment
 // route to allfiles - get - read all files
 router.get('/', (req, res, next) => {
   // bds: I would put queries.listAllFiles() on one line, as that's the intial call
@@ -54,11 +53,9 @@ router.delete('/:fileID', (req, res, next) => {
     .catch(next);
 });
 
-// bds: some comments would be good here, similar to how you commented the routes above
+// error handler for all other routes
 router.use((err, req, res) => {
   res.json({ error: true, message: err.toString() });
 });
 
 module.exports = router;
-
-// bds: overall, this file looks great! :-D

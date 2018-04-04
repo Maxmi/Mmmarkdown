@@ -8,8 +8,8 @@ CREATE TABLE files (
   modified_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
--- bds: triggers are awesome!! Include some comments here about why you're using
--- bds: a trigger and what it's doing
+-- every time a file is touched - this trigger will update file's modified_at column, so that file will be displayed on top of the list 
+
 CREATE OR REPLACE FUNCTION update_modified_column()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -17,7 +17,6 @@ BEGIN
   RETURN NEW;
 END;
 $$ language 'plpgsql';
-
 
 CREATE TRIGGER update_file_modtime
   BEFORE UPDATE ON files
