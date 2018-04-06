@@ -22,16 +22,16 @@ const listAllFiles = () => {
  * @return {Promise} - Promise resolving to an object representing the file
  */
 
-const saveFile = ({ name, newFile }) => {
+const saveFile = ({ name, content }) => {
   const upsertQuery = `
     INSERT INTO files (name, content)
     VALUES ($1, $2)
     ON CONFLICT (name)
     DO UPDATE
-    SET name = $1, content = $2
+    SET content = $2
     RETURNING *
   `;
-  return db.one(upsertQuery, [name, newFile]);
+  return db.one(upsertQuery, [name, content]);
 };
 
 
@@ -50,21 +50,6 @@ const getFileContent = fileID => {
   return db.one(query, [fileID]);
 };
 
-/**
- * Update contents of file
- * @param  {number} fileID  - ID of file to update
- * @param  {string}  newContent  - Updated content of a file
- * @return {Promise} - Promise resolving to object with file data
- */
-const updateFileContent = (fileID, newContent) => {
-  const query = `
-    UPDATE files
-    SET content = $2
-    WHERE id = $1
-    RETURNING *;
-  `;
-  return db.one(query, [fileID, newContent]);
-};
 
 /**
  * Delete a file
@@ -82,6 +67,5 @@ module.exports = {
   listAllFiles,
   saveFile,
   getFileContent,
-  updateFileContent,
   deleteFile
 };

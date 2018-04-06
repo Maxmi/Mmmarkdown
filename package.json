@@ -10,10 +10,11 @@
     "db:schema": "psql markdown < src/models/schema.sql",
     "db:drop": "dropdb markdown",
     "db:reset": "npm run db:drop && npm run db:create && npm run db:schema",
-    "test": "NODE_ENV=test mocha --recursive --exit",
+
+    "test": "npm run test:db:reset && NODE_ENV=test mocha --recursive --exit",
     "test:db:create": "NODE_ENV=test dropdb --if-exists markdown_test && createdb markdown_test",
     "test:db:schema": "NODE_ENV=test psql markdown_test < src/models/schema.sql",
-    "test:db:reset": "npm run test:db:drop && npm run test:db:create && npm run test:db:schema",
+    "test:db:reset": "npm run test:db:create && npm run test:db:schema",
     "lint": "eslint *.js"
   },
   "author": "",

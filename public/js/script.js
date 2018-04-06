@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const addBtn = document.getElementById('add');
   const ul = document.getElementById('list-of-files');
   const saveBtn = document.getElementById('save');
-  const saveChangesBtn = document.getElementById('update');
 
   let fileNameHolder = document.getElementById('fileName');
   let allFiles = [];
@@ -71,6 +70,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
   getAllFiles();
 
+  let isNewFile = false;
+
   // creating new file
   addBtn.addEventListener('click', () => {
     // find li with class active and remove it
@@ -82,15 +83,26 @@ document.addEventListener('DOMContentLoaded', function() {
     userInput.value = '';
     output.innerHTML = '';
     // set default name and propmt for name
-    fileNameHolder.value = 'untitled';
+    fileNameHolder.value = '';
     fileNameHolder.focus();
+    isNewFile = true;
   });
+
 
 
   // saving a file
   saveBtn.addEventListener('click', () => {
     let input = userInput.value;
     let fileName = fileNameHolder.value;
+
+    if(isNewFile) {
+      for(let file of allFiles) {
+        if(file.name === fileName) {
+          confirm(`file with name ${fileName} already exists.`);
+          return false;
+        }
+      }
+    }
 
     fetches.saveFile(fileName, input).then(() => {
       // clear ul, then fetch updated list of files
@@ -102,15 +114,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // deleting a file
   ul.addEventListener('click', event => {
-    // bds: why add the event listener to the whole ul, when what you really
-    // bds: is to add it to each of the individual delete buttons?
     if (event.target.classList.contains('delete')) {
       const li = event.target.closest('li');
       const fileID = li.getAttribute('data-id');
+      const fileName = li.getAttribute('data-name');
+      let itemToRemove;
+
+      for(let file of allFiles) {
+        if(file.name === fileName) {
+          itemToRemove = allFiles.indexOf(file);
+        }
+      }
+
       fetches.deleteFile(fileID).then(() => {
         //remove the clicked file and make first file active
         ul.removeChild(li);
-        fileNameHolder.value = 'untitled';
+        if(itemToRemove !== -1) {
+          allFiles.splice(itemToRemove, 1);
+        }
+        fileNameHolder.value = '';
         userInput.value = '';
         output.innerHTML = '';
         userInput.focus();
@@ -120,6 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // opening a file on double click
   ul.addEventListener('dblclick', event => {
+    isNewFile = false;
     // find li with active class and remove active class from it
     const activeItem = document.querySelector('.active');
     if (!activeItem) {
@@ -134,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // retrive content of the file
     getFile(fileID);
     // populate fileNameHolder
-    const fileName = event.target.innerText;
+    const fileName = li.getAttribute('data-name');
     fileNameHolder.value = fileName;
   });
 }); //most outer function

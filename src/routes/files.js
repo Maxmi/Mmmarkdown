@@ -4,8 +4,6 @@ const queries = require('../models/files');
 
 // route to allfiles - get - read all files
 router.get('/', (req, res, next) => {
-  // bds: I would put queries.listAllFiles() on one line, as that's the intial call
-  // bds: otherwise, it seems like queries is a function call
   return queries.listAllFiles()
     .then(allfiles => {
       res.status(200).json({ allfiles });
@@ -28,17 +26,6 @@ router.get('/:fileID', (req, res, next) => {
   return queries.getFileContent(fileID)
     .then(content => {
       res.status(200).json(content);
-    })
-    .catch(next);
-});
-
-// route to update file content
-router.put('/:fileID', (req, res, next) => {
-  const fileID = parseInt(req.params.fileID);
-  const { newContent } = req.body;
-  return queries.updateFileContent(fileID, newContent)
-    .then(() => {
-      res.status(200).json({});
     })
     .catch(next);
 });

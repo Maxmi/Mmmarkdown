@@ -20,6 +20,7 @@ const helpers = {
     li.appendChild(span);
     li.appendChild(div);
     li.setAttribute('data-id', id);
+    li.setAttribute('data-name', name);
     li.classList.add('item');
     return li;
   }
