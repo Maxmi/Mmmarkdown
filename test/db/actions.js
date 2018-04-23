@@ -15,7 +15,7 @@ const {
 
 
 
-describe.only('db queries', () => {
+describe('db queries', () => {
   describe('listAllFiles', () => {
     context('when db is empty', () => {
       beforeEach(() => {

@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
    */
   const getAllFiles = () => {
     return fetches.getAllFiles().then(result => {
-      allFiles = result.allfiles;
+      allFiles = result.files;
       allFiles.forEach(file => {
         const li = helpers.createLi(file.name, file.id);
         ul.appendChild(li);
@@ -140,8 +140,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // opening a file on double click
-  ul.addEventListener('dblclick', event => {
+  // opening a file on click
+  ul.addEventListener('click', event => {
     isNewFile = false;
     // find li with active class and remove active class from it
     const activeItem = document.querySelector('.active');

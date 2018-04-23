@@ -4,14 +4,12 @@
  */
 
 const fetches = {
-  upsertFile: (fileID, input) => {
-    fetch(`/files/${fileID}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ fileID, newContent: input })
-    });
+  getAllFiles: () => {
+    return fetch('/files').then(result => result.json());
+  },
+
+  getOneFile: fileID => {
+    return fetch(`/files/${fileID}`).then(result => result.json());
   },
 
   deleteFile: fileID => {
@@ -26,13 +24,5 @@ const fetches = {
       },
       body: JSON.stringify({ name: fileName, content: input })
     });
-  },
-
-  getAllFiles: () => {
-    return fetch('/files').then(result => result.json());
-  },
-
-  getOneFile: fileID => {
-    return fetch(`/files/${fileID}`).then(result => result.json());
   }
 };

@@ -5,13 +5,13 @@ const queries = require('../models/files');
 // route to read all files
 router.get('/', (req, res, next) => {
   return queries.listAllFiles()
-    .then(allfiles => {
-      res.status(200).json({ allfiles });
+    .then(files => {
+      res.status(200).json({ files });
     })
     .catch(next);
 });
 
-// route to create new file/update existing file 
+// route to create new file
 router.post('/', (req, res, next) => {
   return queries.saveFile(req.body)
     .then(result => {

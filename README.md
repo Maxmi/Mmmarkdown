@@ -18,7 +18,7 @@ What I learned doing this project:
 - using Material Icons Font  
 
 
-# Built with:
+## Built with:
 
 * [Node.js](https://nodejs.org/)
 * [Express](https://expressjs.com/)
@@ -30,27 +30,27 @@ What I learned doing this project:
 * [Material Design](https://material.io/icons/)  
 
 
-# Deployed Site
+## Deployed Site
 
   https://markdown-mira.herokuapp.com/
 
-# Getting started
+## Getting started
 
 These instructions are for getting a copy of the project on your local environment.
 
 - Clone/Fork - `git clone https://github.com/Maxmi/Mmmarkdown.git`
 - Install npm packages - `npm install`
 
-# Setting up your database
+## Setting up your database
 
 - Create database and tables - `npm run db:init`
 (__WARNING__: This will remove any existing db called `markdown` in postgres)
 
-# Setting up your config
+## Setting up your config
 
 * Run `cp .env.template .env` command in the terminal to create your own `.env` file and enter your config values in the `.env` file
 
-# Starting your development server
+## Starting your development server
 
 * Run `npm start`
 * To access the app go to `http://localhost:3000`
