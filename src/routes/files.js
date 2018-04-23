@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const queries = require('../models/files');
 
-// route to allfiles - get - read all files
+// route to read all files
 router.get('/', (req, res, next) => {
   return queries.listAllFiles()
     .then(allfiles => {
@@ -11,7 +11,7 @@ router.get('/', (req, res, next) => {
     .catch(next);
 });
 
-// route to allfiles - post - create new file
+// route to create new file/update existing file 
 router.post('/', (req, res, next) => {
   return queries.saveFile(req.body)
     .then(result => {
@@ -20,7 +20,7 @@ router.post('/', (req, res, next) => {
     .catch(next);
 });
 
-// route to one file - get one file
+// route to get one file
 router.get('/:fileID', (req, res, next) => {
   const fileID = parseInt(req.params.fileID);
   return queries.getFileContent(fileID)

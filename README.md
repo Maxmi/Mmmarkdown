@@ -1,8 +1,8 @@
 # Mmmmmmarkdown
 
 ## Summary
-My implementation of [Mmmarkdown benchmark module of Learners Guild curriculum](https://curriculum.learnersguild.org/Phases/Practice/Modules/Mmmarkdown/)
-A full-stack single-page web application - markdown editor.
+My implementation of [Mmmarkdown benchmark module of Learners Guild curriculum](https://curriculum.learnersguild.org/Phases/Practice/Modules/Mmmarkdown/).  
+A full-stack single-page web application - markdown editor.  
 Features:
 - user can create, save, update and delete documents  
 - user can preview the markdown test in real time  
@@ -30,7 +30,6 @@ What I learned doing this project:
 * [Material Design](https://material.io/icons/)  
 
 
-
 # Deployed Site
 
   https://markdown-mira.herokuapp.com/
@@ -54,4 +53,4 @@ These instructions are for getting a copy of the project on your local environme
 # Starting your development server
 
 * Run `npm start`
-* To access the app go to `localhost:3000`
+* To access the app go to `http://localhost:3000`

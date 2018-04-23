@@ -1,5 +1,5 @@
 /**
- * [An object with properties that will be used for file manipulations  ]
+ * [An object with properties that will be used for file manipulations]
  * @type {Object}
  */
 
@@ -24,7 +24,7 @@ const fetches = {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ name: fileName, newFile: input })
+      body: JSON.stringify({ name: fileName, content: input })
     });
   },
 
